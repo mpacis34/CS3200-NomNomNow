@@ -49,7 +49,7 @@ services:
     # webapp.  webapp user password is stored in a secret 
     # file as well. 
     environment:
-      MYSQL_USER: nomnomnowAdmin
+      MYSQL_USER: webapp
       MYSQL_PASSWORD_FILE: /run/secrets/secret_db_pw
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/secret_db_root_pw
     
