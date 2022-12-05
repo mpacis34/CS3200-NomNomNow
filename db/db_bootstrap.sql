@@ -77,27 +77,6 @@ insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city,
 insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (9, 9, '02216', 'Boston', '8060 Nevada Drive', 'Massachusetts', 'United States', true);
 insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (10, 10, '02298', 'Boston', '403 Garrison Park', 'Massachusetts', 'United States', true);
 
-
-
-
-create table Payment (
-	order_id INT NOT NULL,
-	amount DECIMAL(5,2) NOT NULL,
-	method TEXT NOT NULL,
-	paydate DATE NOT NULL,
-	FOREIGN KEY (order_id) REFERENCES Order(order_id)
-);
-insert into Payment (order_id, amount, method, paydate) values (1, 17.81, 'visa', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (2, 45.61, 'mastercard', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (3, 15.22, 'amex', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (4, 39.41, 'mastercard', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (5, 38.31, 'mastercard', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (6, 34.24, 'visa', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (7, 55.16, 'amex', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (8, 48.48, 'discover', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (9, 33.35, 'mastercard', '2022-10-13');
-insert into Payment (order_id, amount, method, paydate) values (10, 36.37, 'visa', '2022-10-13');
-
 create table Restaurant (
 	rest_id INT PRIMARY KEY,
 	rest_name VARCHAR(50) NOT NULL,
@@ -123,24 +102,70 @@ insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, z
 insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (9, 'Zoonder', 'United States', 'Massachusetts', 'Newton', '4 Moose Crossing', '02162', 9, 9, 'Vietnamese Restaurant');
 insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (10, 'Yacero', 'United States', 'Massachusetts', 'Boston', '7277 Brown Pass', '02283', 10, 10, 'Thai Restaurant');
 
+create table FoodOrder (
+	order_id INT PRIMARY KEY,
+	cust_id INT NOT NULL,
+	driver_id INT NOT NULL,
+	rest_id INT NOT NULL,
+	food_total INT NOT NULL,
+	delivery_fee INT NOT NULL,
+	order_completed BOOLEAN NOT NULL,
+	special_instructions VARCHAR(50) NOT NULL,
+    FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
+    FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
+);
+
+
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (1, 1, 1, 1, 65, 55, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (2, 2, 2, 2, 57, 14, true, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (3, 3, 3, 3, 69, 9, true, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (4, 4, 4, 4, 67, 20, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (5, 5, 5, 5, 6, 10, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (6, 6, 6, 6, 13, 32, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (7, 7, 7, 7, 79, 26, true, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (8, 8, 8, 8, 53, 42, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (9, 9, 9, 9, 87, 27, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (10, 10, 10, 10, 98, 61, false, '');
+
+
+create table Payment (
+	order_id INT NOT NULL,
+	amount DECIMAL(5,2) NOT NULL,
+	method TEXT NOT NULL,
+	paydate DATE NOT NULL,
+	FOREIGN KEY (order_id) REFERENCES FoodOrder(order_id)
+);
+insert into Payment (order_id, amount, method, paydate) values (1, 17.81, 'visa', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (2, 45.61, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (3, 15.22, 'amex', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (4, 39.41, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (5, 38.31, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (6, 34.24, 'visa', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (7, 55.16, 'amex', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (8, 48.48, 'discover', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (9, 33.35, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (10, 36.37, 'visa', '2022-10-13');
+
+
 
 create table RestaurantCategory (
-	category_id INT AUTO_INCREMENT PRIMARY KEY,
+	category_id INT PRIMARY KEY,
 	rest_id INT NOT NULL,
 	cat_name TEXT NOT NULL,
 	FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
 
 );
 insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 2, 'Chinese');
-insert into RestaurantCategory (category_id, rest_id, cat_name) values (3, 5, 'American');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (31, 5, 'American');
 insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 2, 'Italian');
-insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 6, 'Mexican');
-insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 1, 'Japanese');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (12, 6, 'Mexican');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (49, 1, 'Japanese');
 insert into RestaurantCategory (category_id, rest_id, cat_name) values (1, 5, 'Peruvian');
 insert into RestaurantCategory (category_id, rest_id, cat_name) values (3, 3, 'French');
 insert into RestaurantCategory (category_id, rest_id, cat_name) values (9, 3, 'Romanian');
-insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 6, 'Turkish');
-insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 2, 'Indonesian');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (22, 6, 'Turkish');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (15, 2, 'Indonesian');
 
 create table Menu (
 	menu_id INT PRIMARY KEY,
@@ -177,13 +202,12 @@ insert into FoodCategory (name, food_category_id) values ('Dinner', 10);
 create table MenuItem (
 	item_id INT PRIMARY KEY,
 	menu_id INT NOT NULL,
-	food_category_name TEXT NOT NULL,
+	food_category_name VARCHAR(50) NOT NULL,
 	item_name TEXT NOT NULL,
 	item_description VARCHAR(50) NOT NULL,
 	price DECIMAL(5,2) NOT NULL,
 	availability BOOLEAN NOT NULL,
-	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id),
-	FOREIGN KEY (food_category_name) REFERENCES FoodCategory(food_category_id)
+	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id)
 
 );
 insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (1, 1, '', '', '', 78, true);
@@ -238,31 +262,6 @@ insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (9, 4, 
 insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (10, 9, 1, 5);
 
 
-create table Order (
-	order_id INT PRIMARY KEY,
-	cust_id INT NOT NULL,
-	driver_id INT NOT NULL,
-	rest_id INT NOT NULL,
-	food_total INT NOT NULL,
-	delivery_fee INT NOT NULL,
-	order_completed BOOLEAN NOT NULL,
-	special_instructions VARCHAR(50) NOT NULL,
-    FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
-    FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
-);
-
-
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (1, 1, 1, 1, 65, 55, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (2, 2, 2, 2, 57, 14, true, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (3, 3, 3, 3, 69, 9, true, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (4, 4, 4, 4, 67, 20, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (5, 5, 5, 5, 6, 10, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (6, 6, 6, 6, 13, 32, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (7, 7, 7, 7, 79, 26, true, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (8, 8, 8, 8, 53, 42, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (9, 9, 9, 9, 87, 27, false, '');
-insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (10, 10, 10, 10, 98, 61, false, '');
 
 
 
@@ -272,7 +271,7 @@ create table OrderLine (
 	menu_item_id INT NOT NULL,
 	item_price DECIMAL(5,2) NOT NULL,
 	quantity INT NOT NULL,
-	FOREIGN KEY (order_id) REFERENCES Order(order_id),
+	FOREIGN KEY (order_id) REFERENCES FoodOrder(order_id),
 	FOREIGN KEY (menu_item_id) REFERENCES MenuItem(item_id)
 );
 
