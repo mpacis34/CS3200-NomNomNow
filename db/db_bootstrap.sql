@@ -9,7 +9,7 @@ create table Customer (
 	customer_id INT AUTO_INCREMENT PRIMARY KEY,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
-	email TEXT NOT NULL,
+	email VARCHAR(50) UNIQUE NOT NULL,
 	phone_number VARCHAR(12) UNIQUE NOT NULL,
 	billing_street TEXT NOT NULL,
 	billing_city TEXT NOT NULL,
@@ -81,10 +81,10 @@ insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city,
 
 
 create table Payment (
-	order_id INT AUTO_INCREMENT NOT NULL,
+	order_id INT NOT NULL,
 	amount DECIMAL(5,2) NOT NULL,
 	method TEXT NOT NULL,
-	paydate DATE NOT NULL
+	paydate DATE NOT NULL,
 	FOREIGN KEY (order_id) REFERENCES Order(order_id)
 );
 insert into Payment (order_id, amount, method, paydate) values (1, 17.81, 'visa', '2022-10-13');
@@ -127,20 +127,20 @@ insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, z
 create table RestaurantCategory (
 	category_id INT AUTO_INCREMENT PRIMARY KEY,
 	rest_id INT NOT NULL,
-	name TEXT NOT NULL
+	cat_name TEXT NOT NULL,
 	FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
 
 );
-insert into RestaurantCategory (category_id, rest_id, name) values (8, 2, 'Chinese');
-insert into RestaurantCategory (category_id, rest_id, name) values (3, 5, 'American');
-insert into RestaurantCategory (category_id, rest_id, name) values (4, 2, 'Italian');
-insert into RestaurantCategory (category_id, rest_id, name) values (8, 6, 'Mexican');
-insert into RestaurantCategory (category_id, rest_id, name) values (4, 1, 'Japanese');
-insert into RestaurantCategory (category_id, rest_id, name) values (1, 5, 'Peruvian');
-insert into RestaurantCategory (category_id, rest_id, name) values (3, 3, 'French');
-insert into RestaurantCategory (category_id, rest_id, name) values (9, 3, 'Romanian');
-insert into RestaurantCategory (category_id, rest_id, name) values (4, 6, 'Turkish');
-insert into RestaurantCategory (category_id, rest_id, name) values (8, 2, 'Indonesian');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 2, 'Chinese');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (3, 5, 'American');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 2, 'Italian');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 6, 'Mexican');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 1, 'Japanese');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (1, 5, 'Peruvian');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (3, 3, 'French');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (9, 3, 'Romanian');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (4, 6, 'Turkish');
+insert into RestaurantCategory (category_id, rest_id, cat_name) values (8, 2, 'Indonesian');
 
 create table Menu (
 	menu_id INT PRIMARY KEY,
@@ -201,9 +201,9 @@ create table DriverRating (
 	rating_id INT AUTO_INCREMENT PRIMARY KEY,
 	driver_id INT NOT NULL,
 	cust_id INT NOT NULL,
-	score INT NOT NULL
-	FOREIGN KEY (driver_id) REFERENCES Driver(driver_id)
-	FOREIGN KEY (cust_id) REFERENCES Customer(cust_id)
+	score INT NOT NULL,
+	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
+	FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
 	CHECK (1 <= score <= 5)
 );
 insert into DriverRating (rating_id, driver_id, cust_id, score) values (1, 10, 10, 3);
@@ -221,9 +221,9 @@ create table RestaurantRating (
 	rating_id INT PRIMARY KEY,
 	rest_id INT NOT NULL,
 	cust_id INT NOT NULL,
-	score INT NOT NULL
-	FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
-	FOREIGN KEY (cust_id) REFERENCES Customer(cust_id)
+	score INT NOT NULL,
+	FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id),
+	FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
 	CHECK (1 <= score <= 5)
 );
 insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (1, 4, 2, 3);
@@ -246,9 +246,9 @@ create table Order (
 	food_total INT NOT NULL,
 	delivery_fee INT NOT NULL,
 	order_completed BOOLEAN NOT NULL,
-	special_instructions VARCHAR(50) NOT NULL
-    FOREIGN KEY (cust_id) REFERENCES Customer(cust_id)
-    FOREIGN KEY (driver_id) REFERENCES Driver(driver_id)
+	special_instructions VARCHAR(50) NOT NULL,
+    FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
     FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
 );
 
@@ -272,7 +272,7 @@ create table OrderLine (
 	menu_item_id INT NOT NULL,
 	item_price DECIMAL(5,2) NOT NULL,
 	quantity INT NOT NULL,
-	FOREIGN KEY (order_id) REFERENCES Order(order_id)
+	FOREIGN KEY (order_id) REFERENCES Order(order_id),
 	FOREIGN KEY (menu_item_id) REFERENCES MenuItem(item_id)
 );
 
