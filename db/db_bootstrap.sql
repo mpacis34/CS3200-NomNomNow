@@ -1,16 +1,16 @@
 CREATE DATABASE nomnomnow_db;
-CREATE ALL USER 'webapp'@'%' IDENTIFIED BY 'bnD50!9OH2f';
+-- CREATE ALL USER 'webapp'@'%' IDENTIFIED BY 'bnD50!9OH2f';
 GRANT ALL PRIVILEGES ON nomnomnow_db.* TO 'webapp'@'%';
-FLUSH PRIVILEGES
+FLUSH PRIVILEGES;
 
 USE nomnomnow_db;
 
 create table Customer (
-	customer_id INT PRIMARY KEY,
+	customer_id INT AUTO_INCREMENT PRIMARY KEY,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
-	email TEXT UNIQUE NOT NULL,
-	phone_number TEXT UNIQUE NOT NULL,
+	email TEXT NOT NULL,
+	phone_number VARCHAR(12) UNIQUE NOT NULL,
 	billing_street TEXT NOT NULL,
 	billing_city TEXT NOT NULL,
 	billing_zip VARCHAR(5) NOT NULL,
@@ -29,6 +29,31 @@ insert into Customer (customer_id, first_name, last_name, email, phone_number, b
 insert into Customer (customer_id, first_name, last_name, email, phone_number, billing_street, billing_city, billing_zip, billing_country, billing_state) values (9, 'Josephine', 'Chmarny', 'jchmarny8@google.es', '508-175-0155', '965 Cardinal Point', 'Boston', '02114', 'United States', 'Massachusetts');
 insert into Customer (customer_id, first_name, last_name, email, phone_number, billing_street, billing_city, billing_zip, billing_country, billing_state) values (10, 'Mauricio', 'Le Grand', 'mlegrand9@youtube.com', '413-179-9664', '500 Melody Crossing', 'Springfield', '01129', 'United States', 'Massachusetts');
 
+
+
+create table DeliveryDriver (
+	driver_id INT AUTO_INCREMENT PRIMARY KEY,
+	first_name TEXT NOT NULL,
+	last_name TEXT NOT NULL,
+	phone_number VARCHAR(12) UNIQUE NOT NULL, 
+	delivery_range_in_miles INT NOT NULL,
+	starting_hour INT NOT NULL,
+	ending_hour INT NOT NULL,
+	starting_date DATE NOT NULL,
+	CHECK (0 <= starting_hour <= 24),
+	CHECK (0 <= ending_hour <= 24)
+);
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (1, 'Matthieu', 'Credland', '571-438-4983', 1, 1, 1, '2022-05-02');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (2, 'Renate', 'Dutson', '409-952-7694', 2, 2, 2, '2022-05-09');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (3, 'Estrellita', 'Lucas', '246-151-8890', 3, 3, 3, '2022-05-11');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (4, 'Sigrid', 'Scotsbrook', '331-623-7952', 4, 4, 4, '2022-10-21');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (5, 'Sada', 'Lishman', '813-706-5643', 5, 5, 5, '2022-08-05');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (6, 'Naoma', 'Kemme', '466-695-8296', 6, 6, 6, '2022-10-13');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (7, 'Leeanne', 'Ravens', '469-351-4582', 7, 7, 7, '2022-10-13');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (8, 'Kristopher', 'Iglesia', '375-327-1827', 8, 8, 8, '2022-10-13');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (9, 'Hans', 'Pellamont', '955-365-1244', 9, 9, 9, '2022-10-13');
+insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (10, 'Hamish', 'Wharf', '949-744-0308', 10, 10, 10, '2022-10-13');
+
 create table CustomerDriver (
 	driver_id INT NOT NULL,
 	customer_id INT NOT NULL,
@@ -38,7 +63,7 @@ create table CustomerDriver (
 	delivery_state TEXT NOT NULL,
 	delivery_country TEXT NOT NULL,
 	order_delivered TEXT NOT NULL,
-	FOREIGN KEY (driver_id) REFERENCES Driver(driver_id),
+	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
 	FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
 );
 insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (1, 1, '02162', 'Newton', '958 Reindahl Parkway', 'Massachusetts', 'United States', false);
@@ -53,50 +78,54 @@ insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city,
 insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (10, 10, '02298', 'Boston', '403 Garrison Park', 'Massachusetts', 'United States', true);
 
 
-create table DeliveryDriver (
-	driver_id INT PRIMARY KEY,
-	first_name TEXT NOT NULL,
-	last_name TEXT NOT NULL,
-	phone_number TEXT UNIQUE NOT NULL, 
-	delivery_range_in_miles INT NOT NULL,
-	starting_hour INT NOT NULL,
-	ending_hour INT NOT NULL,
-	starting_date DATE NOT NULL,
-	CHECK (0 <= starting_hour <= 24),
-	CHECK (0 <= ending_hour <= 24)
-);
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (1, 'Matthieu', 'Credland', '571-438-4983', 1, 1, 1, '5/2/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (2, 'Renate', 'Dutson', '409-952-7694', 2, 2, 2, '5/29/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (3, 'Estrellita', 'Lucas', '246-151-8890', 3, 3, 3, '2/10/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (4, 'Sigrid', 'Scotsbrook', '331-623-7952', 4, 4, 4, '10/21/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (5, 'Sada', 'Lishman', '813-706-5643', 5, 5, 5, '8/5/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (6, 'Naoma', 'Kemme', '466-695-8296', 6, 6, 6, '10/13/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (7, 'Leeanne', 'Ravens', '469-351-4582', 7, 7, 7, '10/2/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (8, 'Kristopher', 'Iglesia', '375-327-1827', 8, 8, 8, '10/20/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (9, 'Hans', 'Pellamont', '955-365-1244', 9, 9, 9, '10/13/2022');
-insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (10, 'Hamish', 'Wharf', '949-744-0308', 10, 10, 10, '9/11/2022');
 
 
 create table Payment (
-	order_id INT NOT NULL,
+	order_id INT AUTO_INCREMENT NOT NULL,
 	amount DECIMAL(5,2) NOT NULL,
 	method TEXT NOT NULL,
 	paydate DATE NOT NULL
 	FOREIGN KEY (order_id) REFERENCES Order(order_id)
 );
-insert into Payment (order_id, amount, method, paydate) values (1, 17.81, 'visa', '08/20/2022');
-insert into Payment (order_id, amount, method, paydate) values (2, 45.61, 'mastercard', '04/19/2022');
-insert into Payment (order_id, amount, method, paydate) values (3, 15.22, 'amex', '09/06/2022');
-insert into Payment (order_id, amount, method, paydate) values (4, 39.41, 'mastercard', '06/17/2022');
-insert into Payment (order_id, amount, method, paydate) values (5, 38.31, 'mastercard', '05/24/2022');
-insert into Payment (order_id, amount, method, paydate) values (6, 34.24, 'visa', '05/28/2022');
-insert into Payment (order_id, amount, method, paydate) values (7, 55.16, 'amex', '03/18/2022');
-insert into Payment (order_id, amount, method, paydate) values (8, 48.48, 'discover', '11/27/2021');
-insert into Payment (order_id, amount, method, paydate) values (9, 33.35, 'mastercard', '11/19/2022');
-insert into Payment (order_id, amount, method, paydate) values (10, 36.37, 'visa', '08/11/2022');
+insert into Payment (order_id, amount, method, paydate) values (1, 17.81, 'visa', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (2, 45.61, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (3, 15.22, 'amex', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (4, 39.41, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (5, 38.31, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (6, 34.24, 'visa', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (7, 55.16, 'amex', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (8, 48.48, 'discover', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (9, 33.35, 'mastercard', '2022-10-13');
+insert into Payment (order_id, amount, method, paydate) values (10, 36.37, 'visa', '2022-10-13');
+
+create table Restaurant (
+	rest_id INT PRIMARY KEY,
+	rest_name VARCHAR(50) NOT NULL,
+	country VARCHAR(50) NOT NULL,
+	rest_state VARCHAR(50) NOT NULL,
+	city VARCHAR(50) NOT NULL,
+	street VARCHAR(50) NOT NULL,
+	zip VARCHAR(5) NOT NULL,
+	opening_hour INT NOT NULL,
+	closing_hour INT NOT NULL,
+	info VARCHAR(50) NOT NULL,
+	CHECK (0 <= opening_hour <= 24),
+	CHECK (0 <= closing_hour <= 24)
+);
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (1, 'Linkbuzz', 'United States', 'Massachusetts', 'Boston', '53758 Utah Street', '02298', 1, 1, 'Chinese Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (2, 'Omba', 'United States', 'Massachusetts', 'Newton', '9358 Graceland Lane', '02162', 2, 2, 'Italian Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (3, 'Tazzy', 'United States', 'Massachusetts', 'Springfield', '02 Daystar Plaza', '01129', 3, 3, 'Thai Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (4, 'Skinte', 'United States', 'Massachusetts', 'Boston', '69589 Crowley Street', '02298', 4, 4, 'Japanese Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (5, 'Livetube', 'United States', 'Massachusetts', 'Springfield', '99718 Melby Place', '01105', 5, 5, 'Korean Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (6, 'Oloo', 'United States', 'Massachusetts', 'Springfield', '3950 Ronald Regan Alley', '01114', 6, 6, 'Mexican Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (7, 'Bluezoom', 'United States', 'Massachusetts', 'Springfield', '8779 Harbort Alley', '01114', 7, 7, 'American Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (8, 'Realcube', 'United States', 'Massachusetts', 'New Bedford', '0412 Towne Circle', '02745', 8, 8, 'Seafood Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (9, 'Zoonder', 'United States', 'Massachusetts', 'Newton', '4 Moose Crossing', '02162', 9, 9, 'Vietnamese Restaurant');
+insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (10, 'Yacero', 'United States', 'Massachusetts', 'Boston', '7277 Brown Pass', '02283', 10, 10, 'Thai Restaurant');
+
 
 create table RestaurantCategory (
-	category_id INT PRIMARY KEY NOT NULL,
+	category_id INT AUTO_INCREMENT PRIMARY KEY,
 	rest_id INT NOT NULL,
 	name TEXT NOT NULL
 	FOREIGN KEY (rest_id) REFERENCES Restaurant(rest_id)
@@ -155,7 +184,7 @@ create table MenuItem (
 	availability BOOLEAN NOT NULL,
 	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id),
 	FOREIGN KEY (food_category_name) REFERENCES FoodCategory(food_category_id)
-	F
+
 );
 insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (1, 1, '', '', '', 78, true);
 insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (2, 2, '', '', '', 18, false);
@@ -169,7 +198,7 @@ insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_desc
 insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (10, 10, '', '', '', 94, true);
 
 create table DriverRating (
-	rating_id INT PRIMARY KEY,
+	rating_id INT AUTO_INCREMENT PRIMARY KEY,
 	driver_id INT NOT NULL,
 	cust_id INT NOT NULL,
 	score INT NOT NULL
@@ -208,26 +237,6 @@ insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (8, 5, 
 insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (9, 4, 9, 4);
 insert into RestaurantRating (rating_id, rest_id, cust_id, score) values (10, 9, 1, 5);
 
-create table OrderLine (
-	order_line_id INT PRIMARY KEY,
-	order_id INT NOT NULL,
-	menu_item_id INT NOT NULL,
-	item_price DECIMAL(5,2) NOT NULL,
-	quantity INT NOT NULL,
-	FOREIGN KEY (order_id) REFERENCES Order(order_id)
-	FOREIGN KEY (menu_item_id) REFERENCES MenuItem(item_id)
-);
-
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (1, 1, 1, 5.23, 1);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (2, 2, 2, 73.43, 2);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (3, 3, 3, 81.76, 3);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (4, 4, 4, 54.98, 4);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (5, 5, 5, 60.77, 5);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (6, 6, 6, 22.32, 6);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (7, 7, 7, 36.15, 7);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (8, 8, 8, 68.74, 8);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (9, 9, 9, 84.66, 9);
-insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (10, 10, 10.42, 97, 10);
 
 create table Order (
 	order_id INT PRIMARY KEY,
@@ -255,28 +264,27 @@ insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_f
 insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (9, 9, 9, 9, 87, 27, false, '');
 insert into Order (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (10, 10, 10, 10, 98, 61, false, '');
 
-create table Restaurant (
-	rest_id INT PRIMARY KEY,
-	rest_name VARCHAR(50) NOT NULL,
-	country VARCHAR(50) NOT NULL,
-	rest_state VARCHAR(50) NOT NULL,
-	city VARCHAR(50) NOT NULL,
-	street VARCHAR(50) NOT NULL,
-	zip VARCHAR(5) NOT NULL,
-	opening_hour INT NOT NULL,
-	closing_hour INT NOT NULL,
-	info VARCHAR(50) NOT NULL,
-	CHECK (0 <= opening_hour <= 24),
-	CHECK (0 <= closing_hour <= 24)
+
+
+create table OrderLine (
+	order_line_id INT PRIMARY KEY,
+	order_id INT NOT NULL,
+	menu_item_id INT NOT NULL,
+	item_price DECIMAL(5,2) NOT NULL,
+	quantity INT NOT NULL,
+	FOREIGN KEY (order_id) REFERENCES Order(order_id)
+	FOREIGN KEY (menu_item_id) REFERENCES MenuItem(item_id)
 );
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (1, 'Linkbuzz', 'United States', 'Massachusetts', 'Boston', '53758 Utah Street', '02298', 1, 1, 'Chinese Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (2, 'Omba', 'United States', 'Massachusetts', 'Newton', '9358 Graceland Lane', '02162', 2, 2, 'Italian Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (3, 'Tazzy', 'United States', 'Massachusetts', 'Springfield', '02 Daystar Plaza', '01129', 3, 3, 'Thai Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (4, 'Skinte', 'United States', 'Massachusetts', 'Boston', '69589 Crowley Street', '02298', 4, 4, 'Japanese Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (5, 'Livetube', 'United States', 'Massachusetts', 'Springfield', '99718 Melby Place', '01105', 5, 5, 'Korean Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (6, 'Oloo', 'United States', 'Massachusetts', 'Springfield', '3950 Ronald Regan Alley', '01114', 6, 6, 'Mexican Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (7, 'Bluezoom', 'United States', 'Massachusetts', 'Springfield', '8779 Harbort Alley', '01114', 7, 7, 'American Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (8, 'Realcube', 'United States', 'Massachusetts', 'New Bedford', '0412 Towne Circle', '02745', 8, 8, 'Seafood Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (9, 'Zoonder', 'United States', 'Massachusetts', 'Newton', '4 Moose Crossing', '02162', 9, 9, 'Vietnamese Restaurant');
-insert into Restaurant (rest_id, rest_name, country, rest_state, city, street, zip, opening_hour, closing_hour, info) values (10, 'Yacero', 'United States', 'Massachusetts', 'Boston', '7277 Brown Pass', '02283', 10, 10, 'Thai Restaurant');
+
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (1, 1, 1, 5.23, 1);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (2, 2, 2, 73.43, 2);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (3, 3, 3, 81.76, 3);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (4, 4, 4, 54.98, 4);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (5, 5, 5, 60.77, 5);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (6, 6, 6, 22.32, 6);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (7, 7, 7, 36.15, 7);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (8, 8, 8, 68.74, 8);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (9, 9, 9, 84.66, 9);
+insert into OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) values (10, 10, 10.42, 97, 10);
+
 
