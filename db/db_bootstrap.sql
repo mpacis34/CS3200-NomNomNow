@@ -54,28 +54,6 @@ insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, deli
 insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (9, 'Hans', 'Pellamont', '955-365-1244', 9, 9, 9, '2022-10-13');
 insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, delivery_range_in_miles, starting_hour, ending_hour, starting_date) values (10, 'Hamish', 'Wharf', '949-744-0308', 10, 10, 10, '2022-10-13');
 
-create table CustomerDriver (
-	driver_id INT NOT NULL,
-	customer_id INT NOT NULL,
-	delivery_zip VARCHAR(5) NOT NULL,
-	delivery_city TEXT NOT NULL,
-	delivery_street TEXT NOT NULL,
-	delivery_state TEXT NOT NULL,
-	delivery_country TEXT NOT NULL,
-	order_delivered TEXT NOT NULL,
-	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
-	FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
-);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (1, 1, '02162', 'Newton', '958 Reindahl Parkway', 'Massachusetts', 'United States', false);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (2, 2, '02745', 'New Bedford', '50 Transport Hill', 'Massachusetts', 'United States', true);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (3, 3, '01105', 'Springfield', '515 Londonderry Circle', 'Massachusetts', 'United States', false);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (4, 4, '01105', 'Springfield', '45 Village Green Center', 'Massachusetts', 'United States', true);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (5, 5, '02203', 'Boston', '1 Moulton Parkway', 'Massachusetts', 'United States', true);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (6, 6, '02298', 'Boston', '7 Eastlawn Plaza', 'Massachusetts', 'United States', false);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (7, 7, '02298', 'Boston', '15276 Ryan Pass', 'Massachusetts', 'United States', false);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (8, 8, '02208', 'Boston', '697 Doe Crossing Drive', 'Massachusetts', 'United States', true);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (9, 9, '02216', 'Boston', '8060 Nevada Drive', 'Massachusetts', 'United States', true);
-insert into CustomerDriver (driver_id, customer_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (10, 10, '02298', 'Boston', '403 Garrison Park', 'Massachusetts', 'United States', true);
 
 create table Restaurant (
 	rest_id INT PRIMARY KEY,
@@ -117,17 +95,41 @@ create table FoodOrder (
 );
 
 
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (1, 1, 1, 1, 65, 55, false, '');
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (2, 2, 2, 2, 57, 14, true, '');
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (3, 3, 3, 3, 69, 9, true, '');
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (4, 4, 4, 4, 67, 20, false, '');
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (5, 5, 5, 5, 6, 10, false, '');
-insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (6, 6, 6, 6, 13, 32, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (1, 1, 1, 10, 65, 55, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (2, 2, 2, 9, 57, 14, true, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (3, 3, 3, 8, 69, 9, true, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (4, 4, 4, 7, 67, 20, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (5, 5, 5, 10, 6, 10, false, '');
+insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (6, 6, 6, 1, 13, 32, false, '');
 insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (7, 7, 7, 7, 79, 26, true, '');
 insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (8, 8, 8, 8, 53, 42, false, '');
 insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (9, 9, 9, 9, 87, 27, false, '');
 insert into FoodOrder (order_id, cust_id, driver_id, rest_id, food_total, delivery_fee, order_completed, special_instructions) values (10, 10, 10, 10, 98, 61, false, '');
 
+create table CustomerDriver (
+	driver_id INT NOT NULL,
+	customer_id INT NOT NULL,
+	order_id INT NOT NULL,
+	delivery_zip VARCHAR(5) NOT NULL,
+	delivery_city TEXT NOT NULL,
+	delivery_street TEXT NOT NULL,
+	delivery_state TEXT NOT NULL,
+	delivery_country TEXT NOT NULL,
+	order_delivered TEXT NOT NULL,
+	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
+	FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+	FOREIGN KEY (order_id) REFERENCES FoodOrder(order_id)
+);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (1, 1, 1, '02162', 'Newton', '958 Reindahl Parkway', 'Massachusetts', 'United States', false);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (2, 2, 2,  '02745', 'New Bedford', '50 Transport Hill', 'Massachusetts', 'United States', true);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (3, 3, 3, '01105', 'Springfield', '515 Londonderry Circle', 'Massachusetts', 'United States', false);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (4, 4, 4, '01105', 'Springfield', '45 Village Green Center', 'Massachusetts', 'United States', true);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (5, 5, 5, '02203', 'Boston', '1 Moulton Parkway', 'Massachusetts', 'United States', true);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (6, 6, 6, '02298', 'Boston', '7 Eastlawn Plaza', 'Massachusetts', 'United States', false);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (7, 7, 7, '02298', 'Boston', '15276 Ryan Pass', 'Massachusetts', 'United States', false);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (8, 8, 8, '02208', 'Boston', '697 Doe Crossing Drive', 'Massachusetts', 'United States', true);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (9, 9, 9, '02216', 'Boston', '8060 Nevada Drive', 'Massachusetts', 'United States', true);
+insert into CustomerDriver (driver_id, customer_id, order_id, delivery_zip, delivery_city, delivery_street, delivery_state, delivery_country, order_delivered) values (10, 10, 10, '02298', 'Boston', '403 Garrison Park', 'Massachusetts', 'United States', true);
 
 create table Payment (
 	order_id INT NOT NULL,
@@ -195,31 +197,31 @@ insert into FoodCategory (name, food_category_id) values ('Brunch', 5);
 insert into FoodCategory (name, food_category_id) values ('Appetizer', 6);
 insert into FoodCategory (name, food_category_id) values ('Cocktails', 7);
 insert into FoodCategory (name, food_category_id) values ('Dessert', 8);
-insert into FoodCategory (name, food_category_id) values ('Breakfast', 9);
-insert into FoodCategory (name, food_category_id) values ('Dinner', 10);
+
 
 
 create table MenuItem (
-	item_id INT PRIMARY KEY,
+	item_id INT AUTO_INCREMENT PRIMARY KEY,
 	menu_id INT NOT NULL,
-	food_category_name VARCHAR(50) NOT NULL,
+	food_category_id INT NOT NULL,
 	item_name TEXT NOT NULL,
 	item_description VARCHAR(50) NOT NULL,
 	price DECIMAL(5,2) NOT NULL,
 	availability BOOLEAN NOT NULL,
-	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id)
+	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id),
+	FOREIGN KEY (food_category_id) REFERENCES FoodCategory(food_category_id)
 
 );
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (1, 1, '', '', '', 78, true);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (2, 2, '', '', '', 18, false);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (3, 3, '', '', '', 28, false);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (4, 4, '', '', '', 12, true);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (5, 5, '', '', '', 56, false);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (6, 6, '', '', '', 20, true);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (7, 7, '', '', '', 38, true);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (8, 8, '', '', '', 52, true);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (9, 9, '', '', '', 51, false);
-insert into MenuItem (item_id, menu_id, food_category_name, item_name, item_description, price, availability) values (10, 10, '', '', '', 94, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (1, 1, 3, 'fried-chicken', 'chicken that is fried', 78, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (2, 1, 1, 'pancakes', '', 18, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (3, 1, 7, '', '', 28, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (4, 4, 4, 'spaghetti', '', 12, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (5, 3, 8, 'flan', 'custard dessert with a layer of clear caramel sauce', 56, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (6, 4, 7, '', '', 20, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (7, 3, 1, 'eggs sandwich', 'sandwich with eggs', 38, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (8, 1, 6, 'spring rolls', '', 52, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (9, 2, 5, 'chicken and waffles', 'chicken with waffles', 51, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (10, 2, 1, 'french toast', 'toast but french', 94, true);
 
 create table DriverRating (
 	rating_id INT AUTO_INCREMENT PRIMARY KEY,
