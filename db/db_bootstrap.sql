@@ -56,7 +56,7 @@ insert into DeliveryDriver (driver_id, first_name, last_name, phone_number, deli
 
 
 create table Restaurant (
-	rest_id INT PRIMARY KEY,
+	rest_id INT AUTO_INCREMENT PRIMARY KEY,
 	rest_name VARCHAR(50) NOT NULL,
 	country VARCHAR(50) NOT NULL,
 	rest_state VARCHAR(50) NOT NULL,
@@ -186,17 +186,17 @@ insert into Menu (menu_id, rest_id) values (9, 9);
 insert into Menu (menu_id, rest_id) values (10, 10);
 
 create table FoodCategory (
-	name VARCHAR(50) NOT NULL,
+	food_category_name VARCHAR(50) NOT NULL,
 	food_category_id INT PRIMARY KEY
 );
-insert into FoodCategory (name, food_category_id) values ('Breakfast', 1);
-insert into FoodCategory (name, food_category_id) values ('Drinks', 2);
-insert into FoodCategory (name, food_category_id) values ('Lunch', 3);
-insert into FoodCategory (name, food_category_id) values ('Dinner', 4);
-insert into FoodCategory (name, food_category_id) values ('Brunch', 5);
-insert into FoodCategory (name, food_category_id) values ('Appetizer', 6);
-insert into FoodCategory (name, food_category_id) values ('Cocktails', 7);
-insert into FoodCategory (name, food_category_id) values ('Dessert', 8);
+insert into FoodCategory (food_category_name, food_category_id) values ('Breakfast', 1);
+insert into FoodCategory (food_category_name, food_category_id) values ('Drinks', 2);
+insert into FoodCategory (food_category_name, food_category_id) values ('Lunch', 3);
+insert into FoodCategory (food_category_name, food_category_id) values ('Dinner', 4);
+insert into FoodCategory (food_category_name, food_category_id) values ('Brunch', 5);
+insert into FoodCategory (food_category_name, food_category_id) values ('Appetizer', 6);
+insert into FoodCategory (food_category_name, food_category_id) values ('Cocktails', 7);
+insert into FoodCategory (food_category_name, food_category_id) values ('Dessert', 8);
 
 
 
@@ -205,30 +205,29 @@ create table MenuItem (
 	menu_id INT NOT NULL,
 	food_category_id INT NOT NULL,
 	item_name TEXT NOT NULL,
-	item_description VARCHAR(50) NOT NULL,
+	item_description VARCHAR(500) NOT NULL,
 	price DECIMAL(5,2) NOT NULL,
-	availability BOOLEAN NOT NULL,
-	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id),
-	FOREIGN KEY (food_category_id) REFERENCES FoodCategory(food_category_id)
-
+	item_availability BOOLEAN NOT NULL,
+	FOREIGN KEY (menu_id) REFERENCES Menu(menu_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	FOREIGN KEY (food_category_id) REFERENCES FoodCategory(food_category_id) ON UPDATE CASCADE
 );
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (1, 1, 3, 'fried-chicken', 'chicken that is fried', 78, true);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (2, 1, 1, 'pancakes', '', 18, false);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (3, 1, 7, '', '', 28, false);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (4, 4, 4, 'spaghetti', '', 12, true);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (5, 3, 8, 'flan', 'custard dessert with a layer of clear caramel sauce', 56, false);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (6, 4, 7, '', '', 20, true);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (7, 3, 1, 'eggs sandwich', 'sandwich with eggs', 38, true);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (8, 1, 6, 'spring rolls', '', 52, true);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (9, 2, 5, 'chicken and waffles', 'chicken with waffles', 51, false);
-insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, availability) values (10, 2, 1, 'french toast', 'toast but french', 94, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (1, 1, 3, 'fried-chicken', 'chicken that is fried', 78, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (2, 1, 1, 'pancakes', '', 18, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (3, 1, 7, '', '', 28, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (4, 4, 4, 'spaghetti', '', 12, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (5, 3, 8, 'flan', 'custard dessert with a layer of clear caramel sauce', 56, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (6, 4, 7, '', '', 20, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (7, 3, 1, 'eggs sandwich', 'sandwich with eggs', 38, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (8, 1, 6, 'spring rolls', '', 52, true);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (9, 2, 5, 'chicken and waffles', 'chicken with waffles', 51, false);
+insert into MenuItem (item_id, menu_id, food_category_id, item_name, item_description, price, item_availability) values (10, 2, 1, 'french toast', 'toast but french', 94, true);
 
 create table DriverRating (
 	rating_id INT AUTO_INCREMENT PRIMARY KEY,
 	driver_id INT NOT NULL,
 	cust_id INT NOT NULL,
 	score INT NOT NULL,
-	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id),
+	FOREIGN KEY (driver_id) REFERENCES DeliveryDriver(driver_id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	FOREIGN KEY (cust_id) REFERENCES Customer(customer_id),
 	CHECK (1 <= score <= 5)
 );

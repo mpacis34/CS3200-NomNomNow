@@ -32,10 +32,10 @@ def create_app():
     from src.drivers.drivers  import drivers
 
     # Register the routes that we just imported so they can be properly handled
-    app.register_blueprint(views,       url_prefix='/classic')
-    app.register_blueprint(customers,   url_prefix='/classic')
-    app.register_blueprint(products,    url_prefix='/classic')
-    app.register_blueprint(restaurants,    url_prefix='/classic')
-    app.register_blueprint(drivers,    url_prefix='/classic')
+    app.register_blueprint(views,       url_prefix='/view')
+    app.register_blueprint(customers,   url_prefix='/cust')
+    app.register_blueprint(products,    url_prefix='/prod')
+    app.register_blueprint(restaurants,    url_prefix='/rest')
+    app.register_blueprint(drivers,    url_prefix='/driver')
 
     return app

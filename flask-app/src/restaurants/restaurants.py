@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, app
 import json
 from src import db
 
@@ -89,20 +89,18 @@ def get_restaurant_getAllRestOrders(rest_id):
 
 # add a new menu item to a menu of a specific restaurant
 # this is our 4th route
-@restaurants.route('/restaurants/addMenuItem/', methods=['POST'])
+@restaurants.route('/restaurants/addMenuItem', methods=['POST'])
 def get_restaurant_addNewMenuItem():
     
-    current_app.logger.info(request.form);
+    app.logger.info(request.form);
     cursor = db.get_db().cursor();
+    menu_id = request.form['menu_id']
+    food_category_id = request.form['food_category_id']
     name = request.form['name']
     description = request.form['description']
     price = request.form['price']
-    menu_id = request.form['menu_id']
     availability = request.form['availability']
-    query = f'INSERT INTO MenuItem VALUES (\"{menu_id}"\, \"{name}"\, \"{name}"\,\"{name}"\,\"{description}\")'
-
-
-
+    query = f'INSERT INTO MenuItem (menu_id, food_category_id, item_name, item_description, price, item_availability) VALUES (\"{menu_id}"\, \"{food_category_id}"\, \"{name}"\,\"{description}"\,\"{price}\",\"{availability}"\)'
 
 
     # use cursor to query the database for a list of products
