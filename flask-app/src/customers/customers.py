@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
@@ -63,7 +63,7 @@ def get_customer(userID):
     the_response.mimetype = 'application/json'
     return the_response
     
-    # Get all the menu items given a restaurantID
+# Get all the menu items given a restaurantID
 # this is our 2nd route
 @customers.route('/restaurant_menu/<rest_id>', methods=['GET'])
 def get_restaurant_menuItems(rest_id):
@@ -89,3 +89,35 @@ def get_restaurant_menuItems(rest_id):
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
+
+# add a menu item to a customer's order
+# this is our 7th route
+@customers.route('/customers/addItem', methods=['POST'])
+def addOItem():
+    current_app.logger.info(request.form);
+    cursor = db.get_db().cursor();
+    order_line_id = request.form['order_line_id']
+    order_id = request.form['order_id']
+    menu_item_id = request.form['menu_item_id']
+    item_price = request.form['item_price']
+    quantity = request.form['quantity']
+    query = f'INSERT INTO OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) VALUES ({order_line_id}, {order_id}, {menu_item_id}, {item_price}, {quantity})'
+    current_app.logger.info(query);
+    cursor.execute(query)
+    db.get_db().commit()
+    return 'Success!'
+
+# Get a particular restaurant's rating
+@customers.route('/rest_rating/<restID>', methods=['GET'])
+def get_rest_rating(restID):
+    cursor = db.get_db().cursor()
+    cursor.execute('select score from RestaurantRating where rest_id = {0}'.format(restID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
