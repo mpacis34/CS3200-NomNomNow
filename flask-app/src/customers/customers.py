@@ -52,7 +52,7 @@ def get_restaurants():
 @customers.route('/customers/<userID>', methods=['GET'])
 def get_customer(userID):
     cursor = db.get_db().cursor()
-    cursor.execute('select * from customers where customerNumber = {0}'.format(userID))
+    cursor.execute('select * from Customer where customer_id = {0}'.format(userID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -71,7 +71,7 @@ def get_restaurant_menuItems(rest_id):
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of products
-    cursor.execute('select mi.item_name, mi.item_description, mi.price, mi.availability FROM MenuItem mi join Menu m on m.menu_id = mi.menu_id where m.rest_id={0}'.format(rest_id))    
+    cursor.execute('select mi.item_name, mi.item_description, mi.price, mi.item_availability FROM MenuItem mi join Menu m on m.menu_id = mi.menu_id where m.rest_id={0}'.format(rest_id))    
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
@@ -92,8 +92,8 @@ def get_restaurant_menuItems(rest_id):
 
 # add a menu item to a customer's order
 # this is our 7th route
-@customers.route('/customers/addItem', methods=['POST'])
-def addOItem():
+@customers.route('/addItem', methods=['POST'])
+def addItem():
     current_app.logger.info(request.form);
     cursor = db.get_db().cursor();
     order_line_id = request.form['order_line_id']
