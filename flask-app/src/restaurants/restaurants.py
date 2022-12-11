@@ -5,15 +5,15 @@ from src import db
 
 restaurants = Blueprint('restaurants', __name__)
 
-# Get all the restaurants from the database
-# this is our first route
-@restaurants.route('/restaurants', methods=['GET'])
-def get_restaurants():
+# Get all the menu items given a restaurantID
+# this is our 2nd route
+@restaurants.route('/restaurants/<rest_id>', methods=['GET'])
+def get_restaurant_menuItems(rest_id):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of products
-    cursor.execute('select rest_name, info, opening_hour, closing_hour from Restaurant')
+    cursor.execute('select mi.item_name, mi.item_description, mi.price, mi.availability FROM MenuItem mi join Menu m on m.menu_id = mi.menu_id where m.rest_id={0}'.format(rest_id))    
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
@@ -31,7 +31,6 @@ def get_restaurants():
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
-
 
 # Get all the the orders for a given restaurant
 # this is our 3rd route
