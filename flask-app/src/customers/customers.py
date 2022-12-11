@@ -90,7 +90,6 @@ def get_restaurant_menuItems(rest_id):
     return jsonify(json_data)
 
 # add a menu item to a customer's order
-# this is our 7th route
 @customers.route('/addItem', methods=['POST'])
 def addItem():
     current_app.logger.info(request.form);
@@ -100,7 +99,20 @@ def addItem():
     menu_item_id = request.form['menu_item_id']
     item_price = request.form['item_price']
     quantity = request.form['quantity']
-    query = f'INSERT INTO OrderLine (order_line_id, order_id, menu_item_id, item_price, quantity) VALUES ({order_line_id}, {order_id}, {menu_item_id}, {item_price}, {quantity})'
+    query = f'INSERT INTO OrderLine (order_id, menu_item_id, item_price, quantity) VALUES ({order_id}, {menu_item_id}, {item_price}, {quantity})'
+    current_app.logger.info(query);
+    cursor.execute(query)
+    db.get_db().commit()
+    return 'Success!'
+
+# rate a restaurant
+@customers.route('/rate_restaurant/<rest_id>', methods=['POST'])
+def rateRestaurant(rest_id):
+    current_app.logger.info(request.form);
+    cursor = db.get_db().cursor();
+    cust_id = request.form['cust_id']
+    score = request.form['score']
+    query = f'INSERT INTO RestaurantRating (rest_id, cust_id, score) VALUES ({rest_id}, {cust_id}, {score})'
     current_app.logger.info(query);
     cursor.execute(query)
     db.get_db().commit()
