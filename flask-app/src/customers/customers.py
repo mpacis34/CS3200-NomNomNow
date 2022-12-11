@@ -70,7 +70,7 @@ def get_restaurant_menuItems(rest_id):
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of products
-    cursor.execute('select mi.item_name, mi.item_description, mi.price, mi.item_availability FROM MenuItem mi join Menu m on m.menu_id = mi.menu_id where m.rest_id={0}'.format(rest_id))    
+    cursor.execute('select mi.item_name, mi.item_description, fc.food_category_name, mi.price, mi.item_availability FROM MenuItem mi join Menu m on m.menu_id = mi.menu_id join FoodCategory fc on mi.food_category_id = fc.food_category_id where m.rest_id={0}'.format(rest_id))    
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]

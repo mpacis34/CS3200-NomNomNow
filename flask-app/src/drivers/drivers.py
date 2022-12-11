@@ -5,9 +5,24 @@ from src import db
 
 drivers = Blueprint('drivers', __name__)
 
+# Get all drivers from the DB
+@drivers.route('/drivers', methods=['GET'])
+def get_customers():
+    cursor = db.get_db().cursor()
+    cursor.execute('select * from DeliveryDriver')
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
 # Get all available food orders and decide which one to pick
 # this is our fifth route
-@drivers.route('/drivers/<driver_id>', methods=['GET'])
+@drivers.route('/orders/<driver_id>', methods=['GET'])
 def get_completed_orders(driver_id):
     # get a cursor object from the database
     cursor = db.get_db().cursor()
