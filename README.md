@@ -22,7 +22,7 @@ This repo contains a boilerplate setup for spinning up 2 docker containers:
 
 ## Project Synopsis
 
-NomNomNow is an mvp application that allows struggling family-owned restaurants that are not up-to-date with the latest technology amidst the COVID-19 pandemic to reach more customers. Since many customers are now choosing to get to-go and are not comfortable dining inside the restaurants, this app will help customers discover small, local, family-owned restaurants to support and get their food from. The application includes a delivery service where customers can send in food orders that are picked up by drivers and delivered to the customers’ addresses. The three main user personas for the NomNomNow app are customers, restaurant owners, and delivery drivers. Nomnomnow 
+NomNomNow is an mvp application that allows struggling family-owned restaurants that are not up-to-date with the latest technology amidst the COVID-19 pandemic to reach more customers. Since many customers are now choosing to get to-go and are not comfortable dining inside the restaurants, this app will help customers discover small, local, family-owned restaurants to support and get their food from. The application includes a delivery service where customers can send in food orders that are picked up by drivers and delivered to the customers’ addresses. The three main user personas for the NomNomNow app are customers, restaurant owners, and delivery drivers. 
 
 ## Tech Stack Used
 The application uses the following technologies, languages, and tools:
