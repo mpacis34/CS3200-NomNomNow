@@ -55,7 +55,10 @@ def get_customer_info_for_order(order_id):
     cursor = db.get_db().cursor()
 
     # use cursor to query the database for a list of products
-    cursor.execute('select cust.first_name, cust.last_name, cd.delivery_street, cd.delivery_city, cd.delivery_zip, cd.delivery_state, cd.delivery_country, cd.order_id from CustomerDriver cd join Customer cust on cd.customer_id = cust.customer_id join FoodOrder fo on cd.order_id = fo.order_id  where cd.order_id={0}'.format(order_id))
+    cursor.execute('select cust.first_name, cust.last_name, cd.delivery_street, cd.delivery_city, \
+        cd.delivery_zip, cd.delivery_state, cd.delivery_country, cd.order_id from CustomerDriver \
+            cd join Customer cust on cd.customer_id = cust.customer_id join FoodOrder fo on cd.order_id = \
+                fo.order_id  where cd.order_id={0}'.format(order_id))
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
