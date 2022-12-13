@@ -7,7 +7,7 @@ drivers = Blueprint('drivers', __name__)
 
 # Get all drivers from the DB
 @drivers.route('/drivers', methods=['GET'])
-def get_customers():
+def get_drivers():
     cursor = db.get_db().cursor()
     cursor.execute('select * from DeliveryDriver')
     row_headers = [x[0] for x in cursor.description]
