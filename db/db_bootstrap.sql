@@ -1,5 +1,5 @@
 CREATE DATABASE nomnomnow_db;
-CREATE ALL USER 'webapp'@'%' IDENTIFIED BY 'bnD50!9OH2f';
+CREATE USER 'webapp'@'%' IDENTIFIED BY 'bnD50!9OH2f';
 GRANT ALL PRIVILEGES ON nomnomnow_db.* TO 'webapp'@'%';
 FLUSH PRIVILEGES;
 
